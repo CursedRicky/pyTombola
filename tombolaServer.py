@@ -7,13 +7,12 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # parametri: usa ip 
 server.bind((host, port))
 server.listen()
 
-first: bool = True
-
 clients = []
 
 numeri = []
-for number in range (1, 91) :
+for number in range(1, 91):
     numeri.append(number)
+
 
 def brodcast(msg) -> None:
     for client in clients:
@@ -21,18 +20,10 @@ def brodcast(msg) -> None:
 
 
 def handle(client) -> None:
-    global numeri, first
+    global numeri
     while True:
         try:
-            if len(numeri) > 0:
-                if first :
-                    first = False
-                    input("Inviare per generare")
-                else :
-                    input()
-                msg = str(estrai())
-                brodcast(msg.encode("utf-8"))
-            else :
+            if len(numeri) <= 0:
                 brodcast("Fine".encode("utf-8"))
                 clients.remove(client)
                 client.close()
@@ -57,13 +48,25 @@ def recive() -> None:
         thread.start()
 
 
-def estrai() -> int :
+def estrai() -> None:
     global numeri
     value = random.choice(numeri)
     numeri.remove(value)
-    return value
+    brodcast(str(value).encode("utf-8"))
 
+
+def graf() -> None:
+    root = customtkinter.CTk()
+    root.geometry("200x200")
+    root.title("Tabellone")
+
+    estaiBtn = customtkinter.CTkButton(master=root, command=estrai, text="Estrai")
+    estaiBtn.pack(pady=5)
+
+    root.mainloop()
 
 if __name__ == '__main__':
     print(f"Server Ip: {host}")
+    grafica = threading.Thread(target=graf)
+    grafica.start()
     recive()
