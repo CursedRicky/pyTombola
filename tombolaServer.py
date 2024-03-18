@@ -23,7 +23,7 @@ def handle(client) -> None:
     while True:
         try:
             if len(numeri) > 0:
-                input()
+                input("Inviare per generare")
                 msg = str(estrai())
                 brodcast(msg.encode("utf-8"))
             else :
@@ -59,4 +59,5 @@ def estrai() -> int :
 
 
 if __name__ == '__main__':
+    print(f"Server Ip: {host}")
     recive()
