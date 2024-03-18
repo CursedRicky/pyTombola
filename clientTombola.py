@@ -2,7 +2,7 @@ import socket, threading, customtkinter
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serverPort: int = 1710
-serverIp: str = "192.168.56.1"
+serverIp: str = ""
 
 client.connect((serverIp, serverPort))
 numeri = []
@@ -23,4 +23,5 @@ def main() -> None:
     rcvT.start()
 
 if __name__ == '__main__':
+    serverIp = input("Inserire Ip Server:\n")
     main()
