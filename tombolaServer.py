@@ -7,6 +7,8 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # parametri: usa ip 
 server.bind((host, port))
 server.listen()
 
+first: bool = True
+
 clients = []
 
 numeri = []
@@ -19,11 +21,15 @@ def brodcast(msg) -> None:
 
 
 def handle(client) -> None:
-    global numeri
+    global numeri, first
     while True:
         try:
             if len(numeri) > 0:
-                input("Inviare per generare")
+                if first :
+                    first = False
+                    input("Inviare per generare")
+                else :
+                    input()
                 msg = str(estrai())
                 brodcast(msg.encode("utf-8"))
             else :
