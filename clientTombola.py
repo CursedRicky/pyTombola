@@ -1,14 +1,10 @@
-import socket, threading, customtkinter
+import socket, threading
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 serverPort: int = 1710
 serverIp: str = "192.168.8.82"
 
 numeri = []
-
-root = customtkinter.CTk()
-root.geometry("600x600")
-root.title("Tabella")
 
 def recive() -> None:
     while True:
@@ -21,7 +17,7 @@ def recive() -> None:
                 print(msg)
             numeri.append(msg)
         except:
-            print("Connessione persa")
+            print("Comunicazione interrotta")
             client.close()
             break
 
