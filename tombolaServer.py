@@ -139,4 +139,5 @@ if __name__ == '__main__':
     print(f"Server Ip: {host}")
     grafica = threading.Thread(target=graf)
     grafica.start()
-    recive()
+    reciveT = threading.Thread(target=recive())
+    reciveT.start()
