@@ -1,5 +1,5 @@
 import socket, threading, random, customtkinter
-from CTkMessagebox import CTkMessagebox
+#from CTkMessagebox import CTkMessagebox
 
 host = socket.gethostbyname(socket.gethostname())  # Hosta sulla macchina locale
 port: int = 1710
