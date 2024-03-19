@@ -1,4 +1,5 @@
 import socket, threading, random, customtkinter
+from CTkMessagebox import CTkMessagebox
 
 host = socket.gethostbyname(socket.gethostname())  # Hosta sulla macchina locale
 port: int = 1710
@@ -8,6 +9,7 @@ server.bind((host, port))
 server.listen()
 
 clients = []
+ultimoNumeroA = []
 
 numeri = []
 for number in range(1, 91):
@@ -36,7 +38,7 @@ def handle(client) -> None:
 
 
 def recive() -> None:
-    print("Il server attivo")
+    print("Server attivo")
     while True:
         client, addr = server.accept()
         print(f"Connessione da {str(addr)}")
@@ -50,26 +52,28 @@ def recive() -> None:
 
 
 def estrai() -> None:
-    global numeri, numeriL
+    global numeri, numeriL, ultimoNumeroA
     value = random.choice(numeri)
     numeri.remove(value)
     numeriL[value-1].configure(text_color="lime green")
+    ultimoNumeroA[0].configure(text=f"Ultimo numero: {value}")
     brodcast(str(value).encode("utf-8"))
 
 def resetta() -> None:
-    global numeriL, numeri
+    global numeriL, numeri, ultimoNumeroA
     for label in numeriL :
         label.configure(text_color="white")
     numeri.clear()
     for number in range(1, 91):
         numeri.append(number)
     brodcast("Reset".encode("utf-8"))
+    ultimoNumeroA[0].configure(text="Ultimo numero: -")
 
 def graf() -> None:
-    global numeriL, numeri
+    global numeriL, numeri, ultimoNumeroA
     root = customtkinter.CTk()
     root.title("Tabellone")
-    root.geometry("900x690")
+    root.geometry("900x725")
     root.resizable(False, False)
     customtkinter.set_default_color_theme("green")
 
@@ -84,6 +88,10 @@ def graf() -> None:
 
     resetBtn = customtkinter.CTkButton(master=frameBtn, text="Resetta", width=200, height=50, command=resetta, fg_color="red", hover_color="maroon")
     resetBtn.grid(pady=10, padx=10, column=1, row=0)
+
+    ultimoNumero = customtkinter.CTkLabel(master=root, text="Ultimo numero: -", font=("Verdana", 20))
+    ultimoNumeroA.append(ultimoNumero)
+    ultimoNumeroA[0].pack(pady=5)
 
     frame1 = customtkinter.CTkFrame(master=frame, width=400)
     frame1.grid(pady=10, padx=10, column=0, row=0)
@@ -139,5 +147,5 @@ if __name__ == '__main__':
     print(f"Server Ip: {host}")
     grafica = threading.Thread(target=graf)
     grafica.start()
-    reciveT = threading.Thread(target=recive())
+    reciveT = threading.Thread(target=recive)
     reciveT.start()
