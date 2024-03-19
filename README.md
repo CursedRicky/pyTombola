@@ -9,4 +9,8 @@ Clicca estrai per estrarre un numero, i numeri estratti verranno segnalati in ve
 
 Cliccando resetta tutti i numeri estratti torneranno bianchi, quindi sarà possibile iniziare una nuova partita
 
+![image](https://github.com/CursedRicky/pyTombola/assets/78096957/57b1463e-3d94-4254-92bc-a1195d078fa9)
+
+L'ultimo numero estratto verrà mostrato sotto i pulsanti
+
 ## Tabelle -> Client
