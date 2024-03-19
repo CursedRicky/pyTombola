@@ -1,5 +1,9 @@
-import socket, threading, random, customtkinter
-#from CTkMessagebox import CTkMessagebox
+import customtkinter
+import random
+import socket
+import threading
+
+# from CTkMessagebox import CTkMessagebox
 
 host = socket.gethostbyname(socket.gethostname())  # Hosta sulla macchina locale
 port: int = 1710
@@ -55,19 +59,21 @@ def estrai() -> None:
     global numeri, numeriL, ultimoNumeroA
     value = random.choice(numeri)
     numeri.remove(value)
-    numeriL[value-1].configure(text_color="lime green")
+    numeriL[value - 1].configure(text_color="lime green")
     ultimoNumeroA[0].configure(text=f"Ultimo numero: {value}")
     brodcast(str(value).encode("utf-8"))
 
+
 def resetta() -> None:
     global numeriL, numeri, ultimoNumeroA
-    for label in numeriL :
+    for label in numeriL:
         label.configure(text_color="white")
     numeri.clear()
-    for number in range(1, 91):
-        numeri.append(number)
+    for numbe in range(1, 91):
+        numeri.append(numbe)
     brodcast("Reset".encode("utf-8"))
     ultimoNumeroA[0].configure(text="Ultimo numero: -")
+
 
 def graf() -> None:
     global numeriL, numeri, ultimoNumeroA
@@ -80,17 +86,17 @@ def graf() -> None:
     frame = customtkinter.CTkFrame(master=root)
     frame.pack(pady=10)
 
-    frameBtn = customtkinter.CTkFrame(master=root, width=200, height=50)
-    frameBtn.pack()
+    frame_btn = customtkinter.CTkFrame(master=root, width=200, height=50)
+    frame_btn.pack()
 
-    estraiBtn = customtkinter.CTkButton(master=frameBtn, text="Estrai", width=200, height=50, command=estrai)
-    estraiBtn.grid(pady=10, padx=10, column=0, row=0)
+    estrai_btn = customtkinter.CTkButton(master=frame_btn, text="Estrai", width=200, height=50, command=estrai)
+    estrai_btn.grid(pady=10, padx=10, column=0, row=0)
 
-    resetBtn = customtkinter.CTkButton(master=frameBtn, text="Resetta", width=200, height=50, command=resetta, fg_color="red", hover_color="maroon")
-    resetBtn.grid(pady=10, padx=10, column=1, row=0)
+    reset_btn = customtkinter.CTkButton(master=frame_btn, text="Resetta", width=200, height=50, command=resetta, fg_color="red", hover_color="maroon")
+    reset_btn.grid(pady=10, padx=10, column=1, row=0)
 
-    ultimoNumero = customtkinter.CTkLabel(master=root, text="Ultimo numero: -", font=("Verdana", 20))
-    ultimoNumeroA.append(ultimoNumero)
+    ultimo_numero = customtkinter.CTkLabel(master=root, text="Ultimo numero: -", font=("Verdana", 20))
+    ultimoNumeroA.append(ultimo_numero)
     ultimoNumeroA[0].pack(pady=5)
 
     frame1 = customtkinter.CTkFrame(master=frame, width=400)
