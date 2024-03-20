@@ -2,8 +2,7 @@ import customtkinter
 import random
 import socket
 import threading
-
-# from CTkMessagebox import CTkMessagebox
+from CTkMessagebox import CTkMessagebox
 
 host = socket.gethostbyname(socket.gethostname())  # Hosta sulla macchina locale
 port: int = 1710
@@ -14,6 +13,20 @@ server.listen()
 
 clients = []
 ultimoNumeroA = []
+
+tabelle = []
+tabella1 = [[1,2,3,4,5], [11,12,13,14,15], [21,22,23,24,25]]
+tabelle.append(tabella1)
+tabella2 = [[6,7,8,9,10], [16,17,18,19,20], [26,27,28,29,30]]
+tabelle.append(tabella2)
+tabella3 = [[31,32,33,34,35], [41,42,43,44,45], [51,52,53,54,55]]
+tabelle.append(tabella3)
+tabella4 = [[36,37,38,39,40], [46,47,48,49,50], [56,57,58,59,60]]
+tabelle.append(tabella4)
+tabella5 = [[61,62,63,64,65], [71,72,73,74,75], [81,82,83,84,85]]
+tabelle.append(tabella5)
+tabella6 = [[66,67,68,69,70], [76,77,78,79,80], [86,87,88,89,90]]
+tabelle.append(tabella6)
 
 numeri = []
 for number in range(1, 91):
@@ -56,12 +69,31 @@ def recive() -> None:
 
 
 def estrai() -> None:
-    global numeri, numeriL, ultimoNumeroA
+    global numeri, numeriL, ultimoNumeroA, tabelle
     value = random.choice(numeri)
     numeri.remove(value)
     numeriL[value - 1].configure(text_color="lime green")
     ultimoNumeroA[0].configure(text=f"Ultimo numero: {value}")
     brodcast(str(value).encode("utf-8"))
+    for tabella in tabelle:
+        tombola = True
+        for riga in tabella:
+            if len(riga) != 0:
+                tombola = False
+            if not tombola:
+                for n in riga:
+                    if n == value:
+                        riga.remove(n)
+                        if len(riga) == 3:
+                            CTkMessagebox(title="Ambo", message=f"Ambo!", icon="warning")
+                        elif len(riga) == 2:
+                            CTkMessagebox(title="Terna", message=f"Terna!", icon="warning")
+                        elif len(riga) == 1:
+                            CTkMessagebox(title="Quaterna", message=f"Quaterna!", icon="warning")
+                        elif len(riga) == 0:
+                            CTkMessagebox(title="Cinquina", message=f"Cinquina!", icon="warning")
+        if tombola:
+            CTkMessagebox(title="Tombola", message=f"Tombola!", icon="check")
 
 
 def resetta() -> None:
@@ -139,7 +171,6 @@ def graf() -> None:
             label = customtkinter.CTkLabel(text=str(numero), master=frame6, font=("Verdana", 40))
             label.grid(row=y, column=i, padx=10, pady=5)
             numeriL.append(label)
-
         if i < 9:
             i += 1
         else:
