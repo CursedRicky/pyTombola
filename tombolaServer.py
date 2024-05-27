@@ -8,7 +8,7 @@ host = socket.gethostbyname(socket.gethostname())  # Hosta sulla macchina locale
 port: int = 1710
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Parametri: usa ip v4, con connessione
-server.bind((host, port))
+server.bind((host, port)) # Associa il server all'IP della macchina e alla porta scelta prima
 server.listen()  # Il server è in ascolto
 
 clients = []  # Lista dei client connessi
